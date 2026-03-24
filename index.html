@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Growth Readiness Assessment | Accelerated Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0D0F14;
+  --surface: #151820;
+  --surface-2: #1C2029;
+  --surface-3: #232836;
+  --accent: #4A9EF5;
+  --accent-glow: rgba(74, 158, 245, 0.15);
+  --accent-subtle: rgba(74, 158, 245, 0.08);
+  --green: #34D399;
+  --green-glow: rgba(52, 211, 153, 0.15);
+  --amber: #FBBF24;
+  --amber-glow: rgba(251, 191, 36, 0.15);
+  --red: #F87171;
+  --red-glow: rgba(248, 113, 113, 0.15);
+  --text: #E8ECF4;
+  --text-dim: #8B93A7;
+  --text-muted: #5A6278;
+  --border: rgba(255,255,255,0.06);
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle background texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(74,158,245,0.06), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(52,211,153,0.03), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* ==================== INTRO SCREEN ==================== */
+.intro-screen { animation: fadeUp 0.8s ease both; }
+
+.intro-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--accent-subtle);
+  border: 1px solid rgba(74,158,245,0.15);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.intro-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease infinite;
+}
+
+.intro-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 52px);
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+.intro-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.intro-sub {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  margin-bottom: 36px;
+  max-width: 560px;
+}
+
+.intro-meta {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.intro-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.intro-meta-item svg {
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(74,158,245,0.35);
+}
+
+.start-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+  pointer-events: none;
+}
+
+.start-btn svg { width: 18px; height: 18px; }
+
+.intro-trust {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
+.intro-trust p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ==================== PROGRESS BAR ==================== */
+.progress-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13,15,20,0.85);
+  backdrop-filter: blur(12px);
+  padding: 16px 0 12px;
+  margin: 0 -24px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.progress-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.progress-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.progress-count span { color: var(--accent); }
+
+.progress-bar {
+  height: 3px;
+  background: var(--surface-2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 4px;
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -2px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+/* ==================== QUESTION CARD ==================== */
+.question-screen { display: none; }
+.question-screen.active { display: block; animation: fadeUp 0.5s ease both; }
+
+.q-phase {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 12px;
+  padding: 4px 10px;
+  background: var(--accent-subtle);
+  border-radius: 6px;
+}
+
+.q-number {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.q-text {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 4vw, 32px);
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.option:hover {
+  background: var(--surface-2);
+  border-color: rgba(74,158,245,0.2);
+  transform: translateX(4px);
+}
+
+.option.selected {
+  background: var(--accent-subtle);
+  border-color: rgba(74,158,245,0.4);
+}
+
+.option-radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.option.selected .option-radio {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.option.selected .option-radio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.option-label {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  transition: color 0.2s ease;
+}
+
+.option.selected .option-label { color: var(--text); }
+
+.option-letter {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  background: var(--surface-2);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.option:hover .option-letter { opacity: 0.8; }
+.option.selected .option-letter { opacity: 0; }
+
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 36px;
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+}
+
+.nav-btn.back {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.nav-btn.back:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
+
+.nav-btn.next {
+  background: var(--accent);
+  color: #fff;
+  margin-left: auto;
+}
+
+.nav-btn.next:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(74,158,245,0.3);
+}
+
+.nav-btn.next:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.nav-btn svg { width: 16px; height: 16px; }
+
+/* ==================== EMAIL CAPTURE ==================== */
+.email-screen { display: none; animation: fadeUp 0.5s ease both; }
+.email-screen.active { display: block; }
+
+.email-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--accent-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.email-icon svg { width: 28px; height: 28px; color: var(--accent); }
+
+.email-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.email-sub {
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 480px;
+}
+
+.email-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 420px;
+}
+
+.email-form input {
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: var(--font-body);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.email-form input:focus {
+  border-color: rgba(74,158,245,0.4);
+}
+
+.email-form input::placeholder { color: var(--text-muted); }
+
+.email-submit {
+  padding: 14px 24px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.email-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(74,158,245,0.3);
+}
+
+.email-skip {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-dim);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.email-skip:hover { color: var(--text); }
+
+/* ==================== RESULTS ==================== */
+.results-screen { display: none; }
+.results-screen.active { display: block; animation: fadeUp 0.6s ease both; }
+
+.results-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.results-header .intro-badge { margin-bottom: 20px; }
+
+.results-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 44px);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.results-subtitle {
+  font-size: 18px;
+  color: var(--text);
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* Score Ring */
+.score-ring-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+
+.score-ring-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.score-ring-container svg {
+  width: 200px;
+  height: 200px;
+  transform: rotate(-90deg);
+}
+
+.score-ring-bg {
+  fill: none;
+  stroke: var(--surface-2);
+  stroke-width: 8;
+}
+
+.score-ring-fill {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.5s ease;
+}
+
+.score-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.score-number {
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.score-of {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.score-label-text {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: -12px;
+  margin-bottom: 40px;
+  padding: 6px 16px;
+  border-radius: 8px;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Category Breakdown */
+.breakdown-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.category-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.category-card:hover {
+  border-color: rgba(255,255,255,0.1);
+}
+
+.cat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.cat-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cat-score-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.cat-bar {
+  height: 6px;
+  background: var(--surface-3);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.cat-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 0;
+}
+
+.cat-detail {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* Cost Estimate */
+.cost-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  margin-top: 36px;
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.cost-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+
+.cost-number {
+  font-family: var(--font-display);
+  font-size: 42px;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+
+.cost-note {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* Recommendations */
+.recs-section { margin-top: 40px; }
+
+.recs-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.recs-sub {
+  font-size: 16px;
+  color: var(--text);
+  margin-bottom: 24px;
+  line-height: 1.7;
+}
+
+.rec-item {
+  display: flex;
+  gap: 16px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+
+.rec-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--accent-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.rec-content h4 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+.rec-content p {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* CTA */
+.cta-section {
+  margin-top: 48px;
+  padding: 36px 32px;
+  background: linear-gradient(135deg, rgba(74,158,245,0.1), rgba(52,211,153,0.05));
+  border: 1px solid rgba(74,158,245,0.2);
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 40%, rgba(74,158,245,0.08), transparent 60%);
+  pointer-events: none;
+}
+
+.cta-section > * { position: relative; }
+
+.cta-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+
+.cta-desc {
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.7;
+  margin-bottom: 28px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(74,158,245,0.35);
+}
+
+.cta-btn svg { width: 18px; height: 18px; }
+
+.cta-alt {
+  display: block;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.cta-alt a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.cta-alt a:hover { text-decoration: underline; }
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 600px) {
+  .container { padding: 24px 16px 60px; }
+  .progress-wrap { margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+  .option { padding: 14px 16px; }
+  .option-letter { display: none; }
+  .intro-meta { gap: 16px; }
+  .cta-section { padding: 28px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="app">
+
+  <!-- INTRO -->
+  <div class="intro-screen" id="introScreen">
+    <div style="text-align:center; margin-bottom:36px;">
+      <img src="https://storage.googleapis.com/msgsndr/6up9wDXtx61Gr1M5s6gX/media/665de415c6bcc81192e2ad03.png" alt="Accelerated Intelligence" style="max-width:220px; height:auto;" />
+    </div>
+    <div class="intro-badge">Free Assessment</div>
+    <h1 class="intro-title">Is your business <em>leaking revenue</em> without knowing it?</h1>
+    <p class="intro-sub">Most businesses lose thousands every month to slow follow-up, broken processes, and gaps they can't see. This 3-minute assessment shows you exactly where the leaks are and what they're costing you.</p>
+    <div class="intro-meta">
+      <div class="intro-meta-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        3 minutes
+      </div>
+      <div class="intro-meta-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        10 questions
+      </div>
+      <div class="intro-meta-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        100% confidential
+      </div>
+    </div>
+    <button class="start-btn" onclick="startAssessment()">
+      Start the Assessment
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <div class="intro-trust">
+      <p>Built by Brad Costanzo of Accelerated Intelligence, AI implementation specialist. No fluff, no generic advice. Your results are based on the same diagnostic framework used in private consulting sessions with businesses generating $500K to $10M+ in annual revenue.</p>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="question-screen" id="questionScreen">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <div class="progress-label" id="phaseLabel">Phase 1: Current performance</div>
+        <div class="progress-count"><span id="qCurrent">1</span> of <span id="qTotal">10</span></div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 10%"></div>
+      </div>
+    </div>
+
+    <div id="questionContainer"></div>
+  </div>
+
+  <!-- EMAIL CAPTURE -->
+  <div class="email-screen" id="emailScreen">
+    <div class="email-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </div>
+    <h2 class="email-title">Your results are ready.</h2>
+    <p class="email-sub">Enter your info below and we'll show your full diagnostic report, including your estimated revenue gap and the specific fixes ranked by impact.</p>
+    <div class="email-form">
+      <input type="text" id="nameInput" placeholder="Your first name" />
+      <input type="email" id="emailInput" placeholder="Your best email" />
+      <input type="text" id="bizInput" placeholder="Your business name (optional)" />
+      <button class="email-submit" onclick="submitEmail()">Show My Results</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-screen" id="resultsScreen"></div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    phase: "Phase 1: Current performance",
+    number: 1,
+    text: "Where do most of your customers find you right now?",
+    options: [
+      { text: "Referrals and word of mouth (almost entirely)", score: 2, cat: "lead" },
+      { text: "Mix of referrals plus some online (Google, social, ads)", score: 3, cat: "lead" },
+      { text: "Strong online presence with multiple lead sources", score: 4, cat: "lead" },
+      { text: "Honestly, I'm not sure where most leads come from", score: 1, cat: "lead" },
+    ]
+  },
+  {
+    phase: "Phase 1: Current performance",
+    number: 2,
+    text: "How many inbound leads or inquiries does your team handle in a typical week?",
+    options: [
+      { text: "Fewer than 10", score: 2, cat: "lead" },
+      { text: "10 to 30", score: 3, cat: "lead" },
+      { text: "30 to 100+", score: 4, cat: "lead" },
+      { text: "I don't have a reliable way to track this", score: 1, cat: "lead" },
+    ]
+  },
+  {
+    phase: "Phase 1: Current performance",
+    number: 3,
+    text: "If a high-value prospect reaches out at a busy time or after hours, what usually happens?",
+    options: [
+      { text: "They get an immediate response from a system or person", score: 4, cat: "speed" },
+      { text: "Someone gets back to them within a few hours", score: 3, cat: "speed" },
+      { text: "It depends on who's available. Could be hours, could be days.", score: 2, cat: "speed" },
+      { text: "They probably don't hear back until the next business day, if at all", score: 1, cat: "speed" },
+    ]
+  },
+  {
+    phase: "Phase 2: Revenue leaks",
+    number: 4,
+    text: "What happens to leads that don't convert in the first week?",
+    options: [
+      { text: "They enter an automated nurture sequence and get followed up with", score: 4, cat: "followup" },
+      { text: "Someone manually follows up when they remember", score: 2, cat: "followup" },
+      { text: "They sit in a spreadsheet or CRM and mostly get forgotten", score: 1, cat: "followup" },
+      { text: "We don't really have a process for this", score: 1, cat: "followup" },
+    ]
+  },
+  {
+    phase: "Phase 2: Revenue leaks",
+    number: 5,
+    text: "If a customer has a bad experience, what system catches it before it becomes a public review?",
+    options: [
+      { text: "We have an automated feedback loop that flags unhappy customers", score: 4, cat: "reputation" },
+      { text: "We check in manually but it's not consistent", score: 2, cat: "reputation" },
+      { text: "We usually find out when the bad review is already posted", score: 1, cat: "reputation" },
+      { text: "We don't have anything in place for this", score: 1, cat: "reputation" },
+    ]
+  },
+  {
+    phase: "Phase 2: Revenue leaks",
+    number: 6,
+    text: "If your lead volume doubled overnight, could your team handle it without dropping the ball?",
+    options: [
+      { text: "Yes, our systems would scale with us", score: 4, cat: "scale" },
+      { text: "We could manage short-term but it would get messy", score: 3, cat: "scale" },
+      { text: "We'd be in trouble pretty quickly", score: 2, cat: "scale" },
+      { text: "It would break us. We're already stretched.", score: 1, cat: "scale" },
+    ]
+  },
+  {
+    phase: "Phase 3: Growth readiness",
+    number: 7,
+    text: "How quickly does your team respond to a brand-new lead right now?",
+    options: [
+      { text: "Under 5 minutes, every time", score: 4, cat: "speed" },
+      { text: "Usually within an hour", score: 3, cat: "speed" },
+      { text: "Same day, most of the time", score: 2, cat: "speed" },
+      { text: "It varies wildly depending on the day", score: 1, cat: "speed" },
+    ]
+  },
+  {
+    phase: "Phase 3: Growth readiness",
+    number: 8,
+    text: "When a prospect researches you online before making contact, what do they find?",
+    options: [
+      { text: "Strong, recent reviews plus professional web presence", score: 4, cat: "reputation" },
+      { text: "Decent reviews but our online presence could be stronger", score: 3, cat: "reputation" },
+      { text: "Mixed reviews or very few reviews", score: 2, cat: "reputation" },
+      { text: "I'm not confident in what they'd find", score: 1, cat: "reputation" },
+    ]
+  },
+  {
+    phase: "Phase 3: Growth readiness",
+    number: 9,
+    text: "How much of your week is spent on tasks that a system could handle for you?",
+    options: [
+      { text: "Very little, we've automated most of the repetitive work", score: 4, cat: "scale" },
+      { text: "A few hours each week on things that should be automated", score: 3, cat: "scale" },
+      { text: "A significant chunk. A lot of what we do is still manual.", score: 2, cat: "scale" },
+      { text: "Most of it. We're doing everything by hand.", score: 1, cat: "scale" },
+    ]
+  },
+  {
+    phase: "Phase 3: Growth readiness",
+    number: 10,
+    text: "If all of these gaps were fixed automatically, where would you invest your freed-up time?",
+    options: [
+      { text: "Growing revenue: new markets, partnerships, higher-ticket offers", score: 4, cat: "vision" },
+      { text: "Improving customer experience and retention", score: 3, cat: "vision" },
+      { text: "Finally taking time off without the business falling apart", score: 3, cat: "vision" },
+      { text: "I'd just like to stop putting out fires every day", score: 2, cat: "vision" },
+    ]
+  }
+];
+
+const letters = ['A', 'B', 'C', 'D'];
+let currentQ = 0;
+let answers = [];
+let userName = '';
+
+function startAssessment() {
+  document.getElementById('introScreen').style.display = 'none';
+  document.getElementById('questionScreen').classList.add('active');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  document.getElementById('phaseLabel').textContent = q.phase;
+  document.getElementById('qCurrent').textContent = currentQ + 1;
+  document.getElementById('qTotal').textContent = questions.length;
+  document.getElementById('progressFill').style.width = ((currentQ + 1) / questions.length * 100) + '%';
+
+  const selected = answers[currentQ] !== undefined ? answers[currentQ] : -1;
+
+  let html = `
+    <div style="padding-top: 28px;">
+      <div class="q-phase">${q.phase}</div>
+      <div class="q-number">Question ${q.number} of ${questions.length}</div>
+      <h2 class="q-text">${q.text}</h2>
+      <div class="options">
+  `;
+
+  q.options.forEach((opt, i) => {
+    html += `
+      <div class="option ${selected === i ? 'selected' : ''}" onclick="selectOption(${i})">
+        <div class="option-radio"></div>
+        <div class="option-label">${opt.text}</div>
+        <div class="option-letter">${letters[i]}</div>
+      </div>
+    `;
+  });
+
+  html += `</div><div class="nav-row">`;
+  if (currentQ > 0) {
+    html += `<button class="nav-btn back" onclick="prevQuestion()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back
+    </button>`;
+  } else {
+    html += `<button class="nav-btn back" onclick="backToIntro()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back
+    </button>`;
+  }
+
+  const isLast = currentQ === questions.length - 1;
+  html += `<button class="nav-btn next" id="nextBtn" ${selected === -1 ? 'disabled' : ''} onclick="${isLast ? 'showEmailCapture()' : 'nextQuestion()'}">
+    ${isLast ? 'See My Results' : 'Next'}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>`;
+
+  html += `</div></div>`;
+
+  document.getElementById('questionContainer').innerHTML = html;
+}
+
+function selectOption(idx) {
+  answers[currentQ] = idx;
+  renderQuestion();
+}
+
+function nextQuestion() {
+  if (answers[currentQ] === undefined) return;
+  currentQ++;
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prevQuestion() {
+  currentQ--;
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToIntro() {
+  document.getElementById('questionScreen').classList.remove('active');
+  document.getElementById('introScreen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showEmailCapture() {
+  document.getElementById('questionScreen').classList.remove('active');
+  document.getElementById('questionScreen').style.display = 'none';
+  document.getElementById('emailScreen').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function submitEmail() {
+  userName = document.getElementById('nameInput').value.trim() || '';
+  showResults();
+}
+
+function skipEmail() {
+  userName = '';
+  showResults();
+}
+
+function showResults() {
+  document.getElementById('emailScreen').classList.remove('active');
+  document.getElementById('emailScreen').style.display = 'none';
+
+  // Calculate scores
+  const cats = { lead: [], speed: [], followup: [], reputation: [], scale: [], vision: [] };
+  questions.forEach((q, qi) => {
+    const chosen = q.options[answers[qi]];
+    cats[chosen.cat].push(chosen.score);
+  });
+
+  function avg(arr) { return arr.length ? arr.reduce((a,b) => a+b, 0) / arr.length : 0; }
+
+  const catScores = {
+    lead: avg(cats.lead),
+    speed: avg(cats.speed),
+    followup: avg(cats.followup),
+    reputation: avg(cats.reputation),
+    scale: avg(cats.scale),
+    vision: avg(cats.vision),
+  };
+
+  const totalScore = Object.values(cats).flat().reduce((a,b) => a+b, 0);
+  const maxScore = questions.length * 4;
+  const pct = Math.round((totalScore / maxScore) * 100);
+
+  // Grade
+  let grade, gradeColor, gradeGlow, ringColor;
+  if (pct >= 80) { grade = 'Strong'; gradeColor = 'var(--green)'; gradeGlow = 'var(--green-glow)'; ringColor = '#34D399'; }
+  else if (pct >= 55) { grade = 'Moderate Gaps'; gradeColor = 'var(--amber)'; gradeGlow = 'var(--amber-glow)'; ringColor = '#FBBF24'; }
+  else { grade = 'Critical Gaps'; gradeColor = 'var(--red)'; gradeGlow = 'var(--red-glow)'; ringColor = '#F87171'; }
+
+  // Category meta
+  const catMeta = {
+    lead: { name: 'Lead Generation & Tracking', icon: '1' },
+    speed: { name: 'Speed to Lead', icon: '2' },
+    followup: { name: 'Follow-Up Systems', icon: '3' },
+    reputation: { name: 'Reputation Management', icon: '4' },
+    scale: { name: 'Scalability & Automation', icon: '5' },
+    vision: { name: 'Growth Vision', icon: '6' },
+  };
+
+  // Feedback per category
+  function catFeedback(cat, score) {
+    const fb = {
+      lead: {
+        low: "You don't have clear visibility into where your customers come from. That means you can't double down on what works or cut what doesn't. Every marketing dollar spent without tracking is a gamble.",
+        mid: "You have some lead tracking in place but there are blind spots. Tightening this up would give you real data to make smarter growth decisions.",
+        high: "Your lead sources are well-identified and diversified. This puts you in a strong position to optimize spend and scale what's working."
+      },
+      speed: {
+        low: "Your response time is costing you deals. Research shows that responding within 5 minutes makes you 21x more likely to qualify a lead. Every hour of delay drops your odds dramatically.",
+        mid: "Your response time is decent but not competitive. In most industries, the first business to respond wins the deal. Shaving even 30 minutes off your response time could move the needle.",
+        high: "Your speed-to-lead is strong. This is a real competitive advantage that most businesses don't have."
+      },
+      followup: {
+        low: "Leads that don't convert immediately are falling into a black hole. Without automated follow-up, you're leaving the easiest revenue on the table: people who already raised their hand.",
+        mid: "You have some follow-up happening but it's inconsistent. Automating this one area typically produces the fastest ROI of any system change.",
+        high: "Your follow-up system is working. Leads are being nurtured and nothing is slipping through the cracks."
+      },
+      reputation: {
+        low: "You have no early warning system for unhappy customers. By the time you see a bad review, the damage is done. One negative review can cost you 30+ potential customers.",
+        mid: "You're catching some issues but not all. A consistent feedback loop would protect your brand and turn problems into retention opportunities.",
+        high: "You're actively managing your reputation. This builds compounding trust that makes every other part of your marketing work harder for you."
+      },
+      scale: {
+        low: "Your business is running on manual effort. That means growth creates more stress, not more freedom. You're the bottleneck, and more leads would actually make things worse right now.",
+        mid: "You have some automation but significant manual work remains. Closing these gaps would free up meaningful time and prepare you for the next level of growth.",
+        high: "Your systems are built to scale. Growth would add revenue without proportionally adding chaos. That's the position every business should be in."
+      },
+      vision: {
+        low: "Right now you're stuck in survival mode, reacting to problems instead of building toward something bigger. Fixing the operational gaps would free you to actually work on the business.",
+        mid: "You have a clear sense of where you'd invest freed-up time. That vision is important because it means the operational improvements aren't just about efficiency; they're about getting you to the next stage.",
+        high: "You have strong clarity on what growth looks like for you. The systems to support that vision are either in place or close to it."
+      }
+    };
+    if (score <= 2) return fb[cat].low;
+    if (score <= 3) return fb[cat].mid;
+    return fb[cat].high;
+  }
+
+  // Revenue leak - now an interactive calculator instead of guessing
+  const leakPct = pct >= 80 ? 0.05 : pct >= 55 ? 0.18 : 0.35;
+  const leakPctDisplay = Math.round(leakPct * 100);
+
+  // Build recs based on worst categories
+  const sorted = Object.entries(catScores)
+    .filter(([k]) => k !== 'vision')
+    .sort((a,b) => a[1] - b[1]);
+
+  const recTemplates = {
+    lead: { title: "Install lead source tracking and attribution", desc: "Know exactly where every lead comes from so you can spend more on what works and cut what doesn't.<br><br>Most businesses are flying blind here, spending on channels that don't convert while underinvesting in the ones that do.<br><br>Proper attribution gives you a clear picture of your real cost per acquisition and lets you make data-driven budget decisions instead of guessing." },
+    speed: { title: "Deploy instant lead response (AI receptionist + chat)", desc: "Respond to every inquiry in under 60 seconds, 24/7, with AI voice and chat agents that qualify and route leads automatically.<br><br>Studies show the first business to respond wins the deal up to 78% of the time.<br><br>An AI-powered front line means you never lose a prospect to a voicemail, a missed form submission, or an after-hours inquiry again." },
+    followup: { title: "Build automated follow-up sequences", desc: "Create CRM-connected nurture workflows that re-engage cold leads on autopilot, so nothing sits untouched.<br><br>The average prospect needs 7-12 touchpoints before they buy, but most businesses give up after one or two.<br><br>Automated sequences keep you top of mind without adding hours to your week, and they convert leads you've already paid to acquire." },
+    reputation: { title: "Set up a reputation management system", desc: "Automatically request reviews from happy customers and intercept unhappy ones before they go public.<br><br>A single negative review can deter 30+ potential customers, and most dissatisfied clients never complain directly -- they just leave a review and move on.<br><br>A proactive system turns your best customers into advocates and catches problems before they become public." },
+    scale: { title: "Automate manual workflows and integrations", desc: "Connect your tools, eliminate repetitive tasks, and build systems that scale without adding headcount.<br><br>Right now, growth means more chaos. Every new lead or client adds more manual work to someone's plate.<br><br>Automation flips that equation so that more revenue doesn't automatically mean more stress, more hires, or more hours." },
+  };
+
+  const recs = sorted.slice(0, 3).map(([k]) => recTemplates[k]);
+
+  const greeting = userName ? `, ${userName}` : '';
+
+  // Render
+  let html = `
+    <div class="results-header">
+      <div style="text-align:center; margin-bottom:24px;">
+        <img src="https://storage.googleapis.com/msgsndr/6up9wDXtx61Gr1M5s6gX/media/665de415c6bcc81192e2ad03.png" alt="Accelerated Intelligence" style="max-width:180px; height:auto;" />
+      </div>
+      <div class="intro-badge">Your Results</div>
+      <h1 class="results-title">Here's where your business stands${greeting}.</h1>
+      <p class="results-subtitle">Based on your answers, we've identified specific gaps in your lead capture, follow-up, and operational systems. Here's the full picture.</p>
+    </div>
+  `;
+
+  // Category Tiles Grid
+  const tileCats = [
+    { key: 'lead', label: 'Lead Generation', icon_good: '&#10003;', icon_warn: '&#9888;', icon_bad: '&#10007;' },
+    { key: 'speed', label: 'Speed to Lead', icon_good: '&#10003;', icon_warn: '&#9888;', icon_bad: '&#10007;' },
+    { key: 'followup', label: 'Follow-Up Systems', icon_good: '&#10003;', icon_warn: '&#9888;', icon_bad: '&#10007;' },
+    { key: 'reputation', label: 'Reputation', icon_good: '&#10003;', icon_warn: '&#9888;', icon_bad: '&#10007;' },
+    { key: 'scale', label: 'Scalability', icon_good: '&#10003;', icon_warn: '&#9888;', icon_bad: '&#10007;' },
+    { key: 'vision', label: 'Growth Vision', icon_good: '&#10003;', icon_warn: '&#9888;', icon_bad: '&#10007;' },
+  ];
+
+  html += `<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:48px;">`;
+  tileCats.forEach(tc => {
+    const sc = catScores[tc.key];
+    const p = Math.round((sc / 4) * 100);
+    let tileColor, tileBg, tileBorder, tileIcon, tileStatus;
+    if (p >= 75) {
+      tileColor = '#34D399'; tileBg = 'rgba(52,211,153,0.08)'; tileBorder = 'rgba(52,211,153,0.25)';
+      tileIcon = tc.icon_good; tileStatus = 'Strong';
+    } else if (p >= 50) {
+      tileColor = '#FBBF24'; tileBg = 'rgba(251,191,36,0.08)'; tileBorder = 'rgba(251,191,36,0.25)';
+      tileIcon = tc.icon_warn; tileStatus = 'Gaps';
+    } else {
+      tileColor = '#F87171'; tileBg = 'rgba(248,113,113,0.08)'; tileBorder = 'rgba(248,113,113,0.25)';
+      tileIcon = tc.icon_bad; tileStatus = 'Critical';
+    }
+    html += `
+      <div style="background:${tileBg}; border:1px solid ${tileBorder}; border-radius:14px; padding:20px 14px; text-align:center; transition:transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+        <div style="font-size:28px; color:${tileColor}; margin-bottom:8px; line-height:1;">${tileIcon}</div>
+        <div style="font-size:13px; font-weight:600; color:var(--text); margin-bottom:4px; line-height:1.3;">${tc.label}</div>
+        <div style="font-size:11px; font-weight:700; color:${tileColor}; text-transform:uppercase; letter-spacing:0.06em;">${tileStatus}</div>
+      </div>
+    `;
+  });
+  html += `</div>`;
+
+  html += `
+    <div class="breakdown-title">Breakdown by category</div>
+  `;
+
+  // Category cards
+  const catOrder = ['speed', 'followup', 'lead', 'reputation', 'scale'];
+  catOrder.forEach(cat => {
+    const sc = catScores[cat];
+    const p = Math.round((sc / 4) * 100);
+    let color = 'var(--green)';
+    let bg = 'var(--green-glow)';
+    if (p < 50) { color = 'var(--red)'; bg = 'var(--red-glow)'; }
+    else if (p < 75) { color = 'var(--amber)'; bg = 'var(--amber-glow)'; }
+
+    html += `
+      <div class="category-card">
+        <div class="cat-top">
+          <div class="cat-name">${catMeta[cat].name}</div>
+          <div class="cat-score-badge" style="color:${color}; background:${bg};">${p}%</div>
+        </div>
+        <div class="cat-bar">
+          <div class="cat-bar-fill" style="background:${color};" data-width="${p}%"></div>
+        </div>
+        <div class="cat-detail">${catFeedback(cat, sc)}</div>
+      </div>
+    `;
+  });
+
+  // Interactive Revenue Leak Calculator
+  html += `
+    <div class="cost-section">
+      <div class="cost-section-title">What are these gaps actually costing you?</div>
+      <p style="font-size:14px; color:var(--text-dim); line-height:1.6; margin-bottom:20px;">Based on your score, we estimate roughly <strong style="color:var(--red);">${leakPctDisplay}%</strong> of your potential revenue is slipping through the cracks. Plug in your numbers below to see what that means in real dollars.</p>
+      <div style="display:flex; flex-direction:column; gap:12px; max-width:360px; margin:0 auto 20px;">
+        <div>
+          <label style="font-size:12px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; display:block; margin-bottom:6px;">Avg deal / customer value ($)</label>
+          <input type="number" id="calcDeal" placeholder="e.g. 2000" value="" style="width:100%; padding:12px 16px; background:var(--surface-2); border:1px solid var(--border); border-radius:10px; font-size:15px; font-family:var(--font-body); color:var(--text); outline:none;" onfocus="this.style.borderColor='rgba(74,158,245,0.4)'" onblur="this.style.borderColor='var(--border)'" oninput="calcLeak(${leakPct})" />
+        </div>
+        <div>
+          <label style="font-size:12px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; display:block; margin-bottom:6px;">Leads per month</label>
+          <input type="number" id="calcLeads" placeholder="e.g. 50" value="" style="width:100%; padding:12px 16px; background:var(--surface-2); border:1px solid var(--border); border-radius:10px; font-size:15px; font-family:var(--font-body); color:var(--text); outline:none;" onfocus="this.style.borderColor='rgba(74,158,245,0.4)'" onblur="this.style.borderColor='var(--border)'" oninput="calcLeak(${leakPct})" />
+        </div>
+      </div>
+      <div id="calcResult" style="display:none;">
+        <div style="font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:4px;">Estimated annual revenue at risk</div>
+        <div id="calcNumber" class="cost-number"></div>
+        <div class="cost-note">This is a conservative estimate based on the gap percentage from your assessment. The real number could be higher once you factor in lifetime customer value and referrals.</div>
+      </div>
+    </div>
+  `;
+
+  // Recommendations
+  html += `
+    <div class="recs-section">
+      <h2 class="recs-title">Your top 3 fixes, ranked by impact</h2>
+      <p class="recs-sub">If you only did three things, these would move the needle the most based on your specific gaps.</p>
+  `;
+
+  recs.forEach((rec, i) => {
+    html += `
+      <div class="rec-item">
+        <div class="rec-num">${i + 1}</div>
+        <div class="rec-content">
+          <h4>${rec.title}</h4>
+          <p>${rec.desc}</p>
+        </div>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+
+  // About Accelerated Intelligence section
+  html += `
+    <div style="margin-top:48px; padding:32px; background:var(--surface); border:1px solid var(--border); border-radius:20px;">
+      <div style="text-align:center; margin-bottom:24px;">
+        <img src="https://storage.googleapis.com/msgsndr/6up9wDXtx61Gr1M5s6gX/media/665de415c6bcc81192e2ad03.png" alt="Accelerated Intelligence" style="max-width:160px; height:auto; margin-bottom:16px;" />
+      </div>
+      <h2 style="font-family:var(--font-display); font-size:24px; color:var(--text); text-align:center; margin-bottom:16px;">Who fixes this stuff?</h2>
+      <p style="font-size:16px; color:var(--text); line-height:1.75; text-align:center; max-width:520px; margin:0 auto 20px;">
+        Accelerated Intelligence helps B2B companies and professional services firms stop leaking revenue and start scaling with AI-powered systems that actually work.
+      </p>
+      <p style="font-size:15px; color:var(--text); line-height:1.75; text-align:center; max-width:520px; margin:0 auto 24px;">
+        Founded by Brad Costanzo -- 17+ years in direct response marketing, former Fractional CMO for multiple 7 and 8-figure companies, and someone who's built and sold two companies from scratch. He's not a tech vendor pitching software. He's a strategist who uses AI as the lever.
+      </p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; max-width:500px; margin:0 auto;">
+        <div style="padding:16px; background:var(--surface-2); border-radius:12px; text-align:center;">
+          <div style="font-size:13px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px;">AI Lead Response</div>
+          <div style="font-size:14px; color:var(--text-dim);">Voice + chat agents that respond in seconds, 24/7</div>
+        </div>
+        <div style="padding:16px; background:var(--surface-2); border-radius:12px; text-align:center;">
+          <div style="font-size:13px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px;">Automated Follow-Up</div>
+          <div style="font-size:14px; color:var(--text-dim);">CRM-connected sequences that nurture every lead</div>
+        </div>
+        <div style="padding:16px; background:var(--surface-2); border-radius:12px; text-align:center;">
+          <div style="font-size:13px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px;">Reputation Systems</div>
+          <div style="font-size:14px; color:var(--text-dim);">Proactive review gen + early warning for issues</div>
+        </div>
+        <div style="padding:16px; background:var(--surface-2); border-radius:12px; text-align:center;">
+          <div style="font-size:13px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px;">Workflow Automation</div>
+          <div style="font-size:14px; color:var(--text-dim);">Eliminate manual busywork so growth doesn't break you</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // CTA - Brad / Accelerated Intelligence
+  const ctaMessage = pct >= 80
+    ? "Your systems are solid. A quick conversation could uncover the 10-20% optimization that separates good from great."
+    : pct >= 55
+    ? "You have real gaps, but they're fixable. A 20-minute call will map out exactly what to fix first and what kind of return to expect."
+    : "You're leaving significant money on the table. The good news: the fixes are straightforward. A focused conversation will show you the fastest path to recapturing that lost revenue.";
+
+  html += `
+    <div class="cta-section">
+      <h2 class="cta-title">Let's fix this together.</h2>
+      <p class="cta-desc">${ctaMessage}</p>
+      <p style="font-size:15px; color:var(--text-dim); line-height:1.7; margin-bottom:28px; max-width:460px; margin-left:auto; margin-right:auto;">No pitch deck. No 90-minute webinar. Just a focused conversation about your specific gaps and what it would take to close them.</p>
+      <a href="https://acceleratedintelligence.ai" target="_blank" class="cta-btn">
+        Book a Free Strategy Call with Brad
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <div class="cta-alt">Or email Brad directly at <a href="mailto:brad@acceleratedintelligence.ai">brad@acceleratedintelligence.ai</a></div>
+    </div>
+  `;
+
+  const resultsEl = document.getElementById('resultsScreen');
+  resultsEl.innerHTML = html;
+  resultsEl.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Animate category bars
+  setTimeout(() => {
+    document.querySelectorAll('.cat-bar-fill').forEach(bar => {
+      setTimeout(() => { bar.style.width = bar.dataset.width; }, 300);
+    });
+  }, 200);
+}
+
+function calcLeak(leakPct) {
+  const deal = parseFloat(document.getElementById('calcDeal').value) || 0;
+  const leads = parseFloat(document.getElementById('calcLeads').value) || 0;
+  const resultEl = document.getElementById('calcResult');
+  const numEl = document.getElementById('calcNumber');
+  if (deal > 0 && leads > 0) {
+    const annual = Math.round(leads * 12 * deal * leakPct / 1000) * 1000;
+    numEl.textContent = '$' + annual.toLocaleString();
+    resultEl.style.display = 'block';
+  } else {
+    resultEl.style.display = 'none';
+  }
+}
+</script>
+
+</body>
+</html>
