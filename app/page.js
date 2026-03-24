@@ -9,42 +9,41 @@ const LOGO_URL = 'https://storage.googleapis.com/msgsndr/6up9wDXtx61Gr1M5s6gX/me
 const letters = ['A', 'B', 'C', 'D'];
 
 export default function QuizPage() {
-  const [screen, setScreen] = useState('intro'); // intro | quiz | loading | results
+  const [screen, setScreen] = useState('intro'); // intro | quiz | loading | capture | results
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [resultsHtml, setResultsHtml] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [reportUrl, setReportUrl] = useState('');
+  const [contact, setContact] = useState({ firstName: '', lastName: '', email: '', phone: '', company: '' });
+  const [captureError, setCaptureError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const resultsRef = useRef(null);
   const loadingTimerRef = useRef(null);
 
-  // Save report to API after results are calculated
-  const saveReport = useCallback(async (answerIndices) => {
-    try {
-      const answerDetails = questions.map((q, i) => ({
-        questionIndex: i,
-        optionIndex: answerIndices[i],
-        questionText: q.text,
-        answerText: q.options[answerIndices[i]].text,
-        score: q.options[answerIndices[i]].score,
-        category: q.options[answerIndices[i]].cat,
-      }));
+  // Submit lead + assessment data to API (saves report + sends to GHL)
+  const submitLead = useCallback(async (answerIndices, contactInfo) => {
+    const answerDetails = questions.map((q, i) => ({
+      questionIndex: i,
+      optionIndex: answerIndices[i],
+      questionText: q.text,
+      answerText: q.options[answerIndices[i]].text,
+      score: q.options[answerIndices[i]].score,
+      category: q.options[answerIndices[i]].cat,
+    }));
 
-      const { catScores, pct } = calculateScores(answerIndices);
-      const { grade } = getGrade(pct);
+    const { catScores, pct } = calculateScores(answerIndices);
+    const { grade } = getGrade(pct);
 
-      const res = await fetch('/api/results', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers: answerDetails, catScores, totalPct: pct, grade }),
-      });
+    const res = await fetch('/api/submit-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contact: contactInfo, answers: answerDetails, catScores, totalPct: pct, grade }),
+    });
 
-      if (res.ok) {
-        const data = await res.json();
-        setReportUrl(data.reportUrl);
-      }
-    } catch (e) {
-      console.error('Failed to save report:', e);
+    if (res.ok) {
+      const data = await res.json();
+      setReportUrl(data.reportUrl);
     }
   }, []);
 
@@ -225,7 +224,6 @@ export default function QuizPage() {
     const { html, leakPct } = buildResultsHtml(answerIndices);
     setResultsHtml(html);
     setScreen('results');
-    saveReport(answerIndices);
 
     // After render, animate bars and wire up calculator
     setTimeout(() => {
@@ -258,7 +256,29 @@ export default function QuizPage() {
     }, 200);
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [buildResultsHtml, saveReport]);
+  }, [buildResultsHtml]);
+
+  // Handle lead capture form submission
+  const handleCaptureSubmit = useCallback(async (e) => {
+    e.preventDefault();
+    setCaptureError('');
+
+    if (!contact.firstName.trim() || !contact.email.trim()) {
+      setCaptureError('Please enter your name and email.');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await submitLead(answers, contact);
+      showResults(answers);
+    } catch (err) {
+      console.error('Submission error:', err);
+      // Still show results even if webhook fails
+      showResults(answers);
+    }
+    setSubmitting(false);
+  }, [contact, answers, submitLead, showResults]);
 
   // Loading screen animation
   const showLoading = useCallback(() => {
@@ -305,10 +325,13 @@ export default function QuizPage() {
       if (progress >= 100) {
         clearInterval(loadingTimerRef.current);
         items.forEach(i => i.classList.add('checked'));
-        setTimeout(() => showResults(answers), 600);
+        setTimeout(() => {
+          setScreen('capture');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 600);
       }
     }, interval);
-  }, [answers, showResults]);
+  }, [answers]);
 
   useEffect(() => {
     return () => {
@@ -451,6 +474,77 @@ export default function QuizPage() {
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+
+        {/* LEAD CAPTURE */}
+        {screen === 'capture' && (
+          <div className="capture-screen active" id="captureScreen">
+            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+              <img src={LOGO_URL} alt="Accelerated Intelligence" style={{ maxWidth: '180px', height: 'auto' }} />
+            </div>
+            <div className="intro-badge">Almost There</div>
+            <h1 className="capture-title">Your report is ready.</h1>
+            <p className="capture-sub">Enter your details below to unlock your personalized growth assessment results.</p>
+            <form className="capture-form" onSubmit={handleCaptureSubmit}>
+              <div className="capture-row">
+                <div className="capture-field">
+                  <label>First Name *</label>
+                  <input
+                    type="text"
+                    placeholder="John"
+                    value={contact.firstName}
+                    onChange={(e) => setContact(c => ({ ...c, firstName: e.target.value }))}
+                    required
+                  />
+                </div>
+                <div className="capture-field">
+                  <label>Last Name</label>
+                  <input
+                    type="text"
+                    placeholder="Smith"
+                    value={contact.lastName}
+                    onChange={(e) => setContact(c => ({ ...c, lastName: e.target.value }))}
+                  />
+                </div>
+              </div>
+              <div className="capture-field">
+                <label>Email *</label>
+                <input
+                  type="email"
+                  placeholder="john@company.com"
+                  value={contact.email}
+                  onChange={(e) => setContact(c => ({ ...c, email: e.target.value }))}
+                  required
+                />
+              </div>
+              <div className="capture-field">
+                <label>Phone</label>
+                <input
+                  type="tel"
+                  placeholder="(555) 123-4567"
+                  value={contact.phone}
+                  onChange={(e) => setContact(c => ({ ...c, phone: e.target.value }))}
+                />
+              </div>
+              <div className="capture-field">
+                <label>Company</label>
+                <input
+                  type="text"
+                  placeholder="Acme Inc."
+                  value={contact.company}
+                  onChange={(e) => setContact(c => ({ ...c, company: e.target.value }))}
+                />
+              </div>
+              {captureError && <p className="capture-error">{captureError}</p>}
+              <button type="submit" className="start-btn" disabled={submitting} style={{ width: '100%', justifyContent: 'center', marginTop: '8px' }}>
+                {submitting ? 'Unlocking Your Report...' : 'Unlock My Results'}
+                {!submitting && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                )}
+              </button>
+              <p className="capture-privacy">Your information is kept 100% confidential. No spam, ever.</p>
+            </form>
           </div>
         )}
 
