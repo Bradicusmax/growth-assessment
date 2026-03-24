@@ -410,94 +410,111 @@ body::before {
 
 .nav-btn svg { width: 16px; height: 16px; }
 
-/* ==================== EMAIL CAPTURE ==================== */
-.email-screen { display: none; animation: fadeUp 0.5s ease both; }
-.email-screen.active { display: block; }
+/* ==================== LOADING SCREEN ==================== */
+.loading-screen { display: none; animation: fadeUp 0.5s ease both; }
+.loading-screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center; }
 
-.email-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
+.loading-icon-wrap {
+  width: 72px; height: 72px; border-radius: 50%;
   background: var(--accent-subtle);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 28px;
+  animation: pulse 2s ease-in-out infinite;
 }
 
-.email-icon svg { width: 28px; height: 28px; color: var(--accent); }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74,158,245,0.3); }
+  50% { box-shadow: 0 0 0 16px rgba(74,158,245,0); }
+}
 
-.email-title {
+.loading-spinner {
+  width: 32px; height: 32px;
+  animation: spin 1.2s linear infinite;
+  color: var(--accent);
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-title {
   font-family: var(--font-display);
   font-size: 28px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
-.email-sub {
+.loading-status {
   font-size: 15px;
   color: var(--text-dim);
-  line-height: 1.6;
   margin-bottom: 32px;
-  max-width: 480px;
+  min-height: 24px;
+  transition: opacity 0.3s ease;
 }
 
-.email-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 420px;
+.loading-progress-wrap {
+  width: 100%; max-width: 420px; margin-bottom: 32px;
 }
 
-.email-form input {
-  padding: 14px 18px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  font-size: 15px;
-  font-family: var(--font-body);
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.2s ease;
+.loading-bar {
+  width: 100%; height: 8px;
+  background: var(--surface-2);
+  border-radius: 99px; overflow: hidden;
+  position: relative;
 }
 
-.email-form input:focus {
-  border-color: rgba(74,158,245,0.4);
+.loading-bar-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  border-radius: 99px;
+  transition: width 0.1s linear;
+  position: relative;
 }
 
-.email-form input::placeholder { color: var(--text-muted); }
-
-.email-submit {
-  padding: 14px 24px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  font-family: var(--font-body);
-  cursor: pointer;
-  transition: all 0.25s ease;
+.loading-bar-fill::after {
+  content: '';
+  position: absolute; right: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 12px rgba(52,199,89,0.5);
 }
 
-.email-submit:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(74,158,245,0.3);
-}
-
-.email-skip {
-  display: inline-block;
-  margin-top: 16px;
-  font-size: 13px;
+.loading-pct {
+  font-size: 14px; font-weight: 600;
   color: var(--text-dim);
-  cursor: pointer;
-  border: none;
-  background: none;
-  font-family: var(--font-body);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  margin-top: 8px;
+  font-variant-numeric: tabular-nums;
 }
 
-.email-skip:hover { color: var(--text); }
+.loading-checklist {
+  list-style: none; padding: 0; margin: 0;
+  text-align: left; max-width: 320px; width: 100%;
+}
+
+.loading-checklist li {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 0;
+  font-size: 14px;
+  color: var(--text-muted);
+  transition: color 0.3s ease;
+}
+
+.loading-checklist li.checked { color: var(--green); }
+
+.loading-checklist li .check-icon {
+  width: 18px; height: 18px; flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.loading-checklist li.checked .check-icon {
+  border-color: var(--green);
+  background: var(--green);
+}
+
+.loading-checklist li.checked .check-icon svg { opacity: 1; }
+.loading-checklist li .check-icon svg { opacity: 0; width: 10px; height: 10px; transition: opacity 0.3s ease; }
 
 /* ==================== RESULTS ==================== */
 .results-screen { display: none; }
@@ -839,10 +856,34 @@ body::before {
   .option-letter { display: none; }
   .intro-meta { gap: 16px; }
   .cta-section { padding: 28px 20px; }
+  .loading-title { font-size: 22px; }
+  .loading-progress-wrap { max-width: 100%; }
+  .loading-checklist { max-width: 100%; }
 }
 </style>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-M5ZQ22V7');</script>
+<!-- End Google Tag Manager -->
 </head>
 <body>
+<script async>
+  (function(w, d) {
+    d.addEventListener("DOMContentLoaded", function () {
+      var token = "";
+      var script = d.createElement('script');
+      script.async = true;
+      script.src = "https://track.saleshub.ai/assets/for-cache.min.js?authorization=";
+      script.onload = function () {
+        w.salesToolsObserverCached(token);
+      };
+      d.body.appendChild(script);
+    })
+  })(window, document)
+</script>
 
 <div class="container" id="app">
 
@@ -892,19 +933,25 @@ body::before {
     <div id="questionContainer"></div>
   </div>
 
-  <!-- EMAIL CAPTURE -->
-  <div class="email-screen" id="emailScreen">
-    <div class="email-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+  <!-- LOADING SCREEN -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-icon-wrap">
+      <svg class="loading-spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" opacity="0.3"/><path d="M12 2v4"/></svg>
     </div>
-    <h2 class="email-title">Your results are ready.</h2>
-    <p class="email-sub">Enter your info below and we'll show your full diagnostic report, including your estimated revenue gap and the specific fixes ranked by impact.</p>
-    <div class="email-form">
-      <input type="text" id="nameInput" placeholder="Your first name" />
-      <input type="email" id="emailInput" placeholder="Your best email" />
-      <input type="text" id="bizInput" placeholder="Your business name (optional)" />
-      <button class="email-submit" onclick="submitEmail()">Show My Results</button>
+    <h2 class="loading-title">Analyzing your responses</h2>
+    <p class="loading-status" id="loadingStatus">Analyzing your responses...</p>
+    <div class="loading-progress-wrap">
+      <div class="loading-bar"><div class="loading-bar-fill" id="loadingBarFill"></div></div>
+      <div class="loading-pct"><span id="loadingPct">0</span>%</div>
     </div>
+    <ul class="loading-checklist" id="loadingChecklist">
+      <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><path d="M2 5l2.5 2.5L8 3"/></svg></span>Lead Generation</li>
+      <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><path d="M2 5l2.5 2.5L8 3"/></svg></span>Speed to Lead</li>
+      <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><path d="M2 5l2.5 2.5L8 3"/></svg></span>Follow-up Systems</li>
+      <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><path d="M2 5l2.5 2.5L8 3"/></svg></span>Online Reputation</li>
+      <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><path d="M2 5l2.5 2.5L8 3"/></svg></span>Scalability</li>
+      <li><span class="check-icon"><svg viewBox="0 0 10 10" fill="none" stroke="#fff" stroke-width="2"><path d="M2 5l2.5 2.5L8 3"/></svg></span>Growth Vision</li>
+    </ul>
   </div>
 
   <!-- RESULTS -->
@@ -1078,7 +1125,7 @@ function renderQuestion() {
   }
 
   const isLast = currentQ === questions.length - 1;
-  html += `<button class="nav-btn next" id="nextBtn" ${selected === -1 ? 'disabled' : ''} onclick="${isLast ? 'showEmailCapture()' : 'nextQuestion()'}">
+  html += `<button class="nav-btn next" id="nextBtn" ${selected === -1 ? 'disabled' : ''} onclick="${isLast ? 'showLoading()' : 'nextQuestion()'}">
     ${isLast ? 'See My Results' : 'Next'}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </button>`;
@@ -1112,26 +1159,61 @@ function backToIntro() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function showEmailCapture() {
+function showLoading() {
   document.getElementById('questionScreen').classList.remove('active');
   document.getElementById('questionScreen').style.display = 'none';
-  document.getElementById('emailScreen').classList.add('active');
+  document.getElementById('loadingScreen').classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
-function submitEmail() {
-  userName = document.getElementById('nameInput').value.trim() || '';
-  showResults();
-}
+  const messages = [
+    'Analyzing your responses...',
+    'Evaluating lead generation systems...',
+    'Calculating speed-to-lead metrics...',
+    'Reviewing follow-up processes...',
+    'Assessing online reputation signals...',
+    'Measuring scalability potential...',
+    'Comparing against industry benchmarks...',
+    'Generating personalized recommendations...',
+    'Finalizing your growth report...'
+  ];
 
-function skipEmail() {
-  userName = '';
-  showResults();
+  const bar = document.getElementById('loadingBarFill');
+  const pct = document.getElementById('loadingPct');
+  const status = document.getElementById('loadingStatus');
+  const items = document.querySelectorAll('#loadingChecklist li');
+  const totalMs = 10000;
+  const interval = 100;
+  const steps = totalMs / interval;
+  let step = 0;
+
+  const timer = setInterval(() => {
+    step++;
+    const progress = Math.min(Math.round((step / steps) * 100), 100);
+    bar.style.width = progress + '%';
+    pct.textContent = progress;
+
+    const msgIndex = Math.min(Math.floor((progress / 100) * messages.length), messages.length - 1);
+    status.textContent = messages[msgIndex];
+
+    const checkThreshold = Math.floor((progress / 100) * items.length);
+    for (let i = 0; i < checkThreshold; i++) {
+      items[i].classList.add('checked');
+    }
+
+    if (progress >= 100) {
+      clearInterval(timer);
+      items.forEach(i => i.classList.add('checked'));
+      setTimeout(() => {
+        userName = '';
+        showResults();
+      }, 600);
+    }
+  }, interval);
 }
 
 function showResults() {
-  document.getElementById('emailScreen').classList.remove('active');
-  document.getElementById('emailScreen').style.display = 'none';
+  document.getElementById('loadingScreen').classList.remove('active');
+  document.getElementById('loadingScreen').style.display = 'none';
 
   // Calculate scores
   const cats = { lead: [], speed: [], followup: [], reputation: [], scale: [], vision: [] };
