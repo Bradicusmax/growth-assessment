@@ -832,6 +832,50 @@ body::before {
 
 .cta-alt a {
   color: var(--accent);
+}
+
+/* FORM MODAL */
+.form-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+.form-modal-overlay.active { display: flex; }
+
+.form-modal {
+  position: relative;
+  width: 90%;
+  max-width: 600px;
+  height: 880px;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  animation: fadeUp 0.35s ease;
+}
+
+.form-modal-close {
+  position: absolute;
+  top: 10px; right: 10px;
+  z-index: 10;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.form-modal-close:hover { background: rgba(0,0,0,0.7); }
   text-decoration: none;
 }
 
@@ -1478,10 +1522,10 @@ function showResults() {
       <h2 class="cta-title">Let's fix this together.</h2>
       <p class="cta-desc">${ctaMessage}</p>
       <p style="font-size:15px; color:var(--text-dim); line-height:1.7; margin-bottom:28px; max-width:460px; margin-left:auto; margin-right:auto;">No pitch deck. No 90-minute webinar. Just a focused conversation about your specific gaps and what it would take to close them.</p>
-      <a href="https://acceleratedintelligence.ai" target="_blank" class="cta-btn">
+      <button class="cta-btn" onclick="openFormModal()">
         Book a Free Strategy Call with Brad
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+      </button>
       <div class="cta-alt">Or email Brad directly at <a href="mailto:brad@acceleratedintelligence.ai">brad@acceleratedintelligence.ai</a></div>
     </div>
   `;
@@ -1512,7 +1556,41 @@ function calcLeak(leakPct) {
     resultEl.style.display = 'none';
   }
 }
+
+function openFormModal() {
+  document.getElementById('formModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFormModal() {
+  document.getElementById('formModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
 </script>
+
+<div class="form-modal-overlay" id="formModal" onclick="if(event.target===this)closeFormModal()">
+  <div class="form-modal">
+    <button class="form-modal-close" onclick="closeFormModal()" aria-label="Close">&times;</button>
+    <iframe
+      src="https://api.leadconnectorhq.com/widget/form/TSvXW6B7BhstpdVfk35P"
+      style="width:100%;height:100%;border:none;border-radius:3px"
+      id="inline-TSvXW6B7BhstpdVfk35P"
+      data-layout="{'id':'INLINE'}"
+      data-trigger-type="alwaysShow"
+      data-trigger-value=""
+      data-activation-type="alwaysActivated"
+      data-activation-value=""
+      data-deactivation-type="neverDeactivate"
+      data-deactivation-value=""
+      data-form-name="Assessment Rev Leaks"
+      data-height="880"
+      data-layout-iframe-id="inline-TSvXW6B7BhstpdVfk35P"
+      data-form-id="TSvXW6B7BhstpdVfk35P"
+      title="Assessment Rev Leaks"
+    ></iframe>
+  </div>
+</div>
+<script src="https://link.msgsndr.com/js/form_embed.js"></script>
 
 </body>
 </html>
